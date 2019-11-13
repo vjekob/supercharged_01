@@ -1,0 +1,52 @@
+.entry {
+    width: 10em;
+    height: 10em;
+    margin: 0.45em;
+    background-color: ghostwhite;
+    box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    padding: 0.33em;
+    color: #3f3f3f;
+    display: flex;
+    flex-direction: column;
+    transition: all 200ms ease-out;
+    cursor: default;
+}
+
+.entry:hover {
+    box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.15);
+}
+
+.entry.selected {
+    color: white;
+    background-color: #00B7C3;
+}
+
+.entry .date {
+    font-size: 0.8em;
+    flex: 0;
+}
+
+.entry .customer {
+    flex: 1;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.entry .customer .no {
+    font-size: 0.8em;
+}
+
+.entry .amount {
+    flex: 0;
+    font-size: 1.3em;
+    align-self: flex-end;
+}
+
+.entry .amount .currency {
+    margin-right: 0.6em;
+    font-size: 0.6em;
+}
