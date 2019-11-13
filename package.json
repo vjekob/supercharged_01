@@ -1,0 +1,16 @@
+{
+    "name": "simpler",
+    "author": {
+        "name": "Vjeko.com",
+        "url": "http://vjeko.com"
+    },
+    "version": "1.0.0",
+    "description": "Simpler Control Add-in Demo for NAV TechDays 2019",
+    "license": "MIT",
+    "repository": {
+        "url": "https://github.com/vjekob/simpler_demo"
+    },
+    "dependencies": {
+        "gulp": "^4.0.2"
+    }
+}
