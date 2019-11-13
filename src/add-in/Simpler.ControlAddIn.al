@@ -1,6 +1,8 @@
 controladdin Simpler
 {
-    Scripts = 'src/add-in/scripts/simpler.min.js';
+    Scripts =
+        'https://polyfill.io/v3/polyfill.min.js?flags=gated%2Calways&features=Symbol%2CElement.prototype.append%2CArray.prototype.includes',
+        'src/add-in/scripts/simpler.min.js';
     StartupScript = 'src/add-in/scripts/start.js';
     StyleSheets = 'src/add-in/styles/simpler.min.css';
 

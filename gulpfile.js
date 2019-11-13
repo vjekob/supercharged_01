@@ -4,6 +4,7 @@ const concat = require("gulp-concat");
 const uglify = require("gulp-uglify-es").default;
 const cleanCss = require("gulp-clean-css");
 const sourcemaps = require("gulp-sourcemaps");
+const babel = require("gulp-babel");
 
 const config = require("./gulp.config.json");
 
@@ -25,6 +26,9 @@ const bundleJs = () => gulp
     .src([globJs, `!${path.js}/start.js`])
     .pipe(sourcemaps.init())
     .pipe(concat(bundleJsFileName))
+    .pipe(babel({
+        presets: ["@babel/preset-env"]
+    }))
     .pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(path.js))

@@ -24,11 +24,11 @@
 
 .entry .date {
     font-size: 0.8em;
-    flex: 0;
+    flex: 0 0 1em;
 }
 
 .entry .customer {
-    flex: 1;
+    flex: 1 1 auto;
     margin-top: 0.25em;
     margin-bottom: 0.25em;
     display: flex;
@@ -41,7 +41,7 @@
 }
 
 .entry .amount {
-    flex: 0;
+    flex: 0 0 1em;
     font-size: 1.3em;
     align-self: flex-end;
 }
