@@ -35,4 +35,8 @@ const bundleCss = () => gulp
 const buildJs = gulp.series(deleteBundleJs, bundleJs);
 const buildCss = gulp.series(deleteBundleCss, bundleCss);
 
+const watchJs = () => gulp.watch([globJs, `!${pathBundleJs}`], buildJs);
+const watchCss = () => gulp.watch([globCss, `!${pathBundleCss}`], buildCss);
+
 exports.build = gulp.parallel(buildJs, buildCss);
+exports.watch = gulp.parallel(watchJs, watchCss);
