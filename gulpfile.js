@@ -3,6 +3,7 @@ const del = require("del");
 const concat = require("gulp-concat");
 const uglify = require("gulp-uglify-es").default;
 const cleanCss = require("gulp-clean-css");
+const sourcemaps = require("gulp-sourcemaps");
 
 const config = require("./gulp.config.json");
 
@@ -22,8 +23,10 @@ const deleteBundleCss = () => del(pathBundleCss);
 
 const bundleJs = () => gulp
     .src([globJs, `!${path.js}/start.js`])
+    .pipe(sourcemaps.init())
     .pipe(concat(bundleJsFileName))
     .pipe(uglify())
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(path.js))
 
 const bundleCss = () => gulp

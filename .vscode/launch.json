@@ -2,6 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome",
+            "url": "https://demos.vjeko.com/BC150/?page=50100",
+            "webRoot": "${workspaceFolder}/src/add-in/scripts"
+        },
+        {
             "type": "al",
             "request": "launch",
             "name": "Your own server",
@@ -10,8 +17,8 @@
             "authentication": "UserPassword",
             "startupObjectId": 50100,
             "startupObjectType": "Page",
-            "breakOnError": true,
-            "launchBrowser": true,
+            "breakOnError": false,
+            "launchBrowser": false,
             "enableLongRunningSqlStatements": true,
             "enableSqlInformationDebugger": true
         }
