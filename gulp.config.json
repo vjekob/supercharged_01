@@ -1,0 +1,8 @@
+{
+    "root": "./src/add-in",
+    "path": {
+        "js": "scripts",
+        "css": "styles"
+    },
+    "package": "simpler"
+}
