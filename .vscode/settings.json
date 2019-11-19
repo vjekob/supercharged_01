@@ -1,5 +1,7 @@
 {
     "files.exclude": {
+        ".alpackages": true,
+        "*.app": true,
         "node_modules": true
     }
 }
