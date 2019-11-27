@@ -192,4 +192,4 @@ can be very useful to simplify user processes. In other branches and repos, I'll
 on this topic and will address all of the issues above.
 
 The next example is now public, check it at:
-- [branch 01-split-js](./tree/01-split-js) - it addresses an attempt at separating front-end concerns
+- [branch 01-split-js](https://github.com/vjekob/supercharged_01/tree/01-split-js) - it addresses an attempt at separating front-end concerns
