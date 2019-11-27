@@ -191,5 +191,5 @@ However, it's still a cool control add-in that shows in a nice way how control a
 can be very useful to simplify user processes. In other branches and repos, I'll expand
 on this topic and will address all of the issues above.
 
-Stay tuned - this Readme.md file will be updated when I post the next branch with the
-next example.
+The next example is now public, check it at:
+- [branch 01-split-js](./tree/01-split-js) - it addresses an attempt at separating front-end concerns
