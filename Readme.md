@@ -11,7 +11,7 @@ to the public, together with the explanations and important code examples.
 
 This repository and branch contain the following:
 * **Repository:** Stage 01 - "Simpler" control add-in
-* **Branch:** Introduction
+* **Branch:** master - Introduction
 
 ## Branch Detailed Info
 
@@ -191,5 +191,6 @@ However, it's still a cool control add-in that shows in a nice way how control a
 can be very useful to simplify user processes. In other branches and repos, I'll expand
 on this topic and will address all of the issues above.
 
-The next example is now public, check it at:
+You can check other examples:
 - [branch 01-split-js](https://github.com/vjekob/supercharged_01/tree/01-split-js) - it addresses an attempt at separating front-end concerns
+- [branch 02-framework](https://github.com/vjekob/supercharged_01/tree/02-framework) - it teaches you not to build a yet another front-end framework
