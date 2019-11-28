@@ -11,7 +11,7 @@ to the public, together with the explanations and important code examples.
 
 This repository and branch contain the following:
 * **Repository:** Stage 01 - "Simpler" control add-in
-* **Branch:** Split source files
+* **Branch:** 01-split-js - Splitting source files
 
 ## Branch Detailed Info
 
