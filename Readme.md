@@ -194,4 +194,5 @@ on this topic and will address all of the issues above.
 You can check other examples:
 - [branch 01-split-js](https://github.com/vjekob/supercharged_01/tree/01-split-js) - it addresses an attempt at separating front-end concerns
 - [branch 02-framework](https://github.com/vjekob/supercharged_01/tree/02-framework) - it teaches you not to build a yet another front-end framework
-- [brahcn 03-gulp-hello-world](https://github.com/vjekob/supercharged_01/tree/03-gulp-hello-world) - we're introducing `gulp` to the stage
+- [branch 03-gulp-hello-world](https://github.com/vjekob/supercharged_01/tree/03-gulp-hello-world) - we're introducing `gulp` to the stage
+- [branch 04-gulp-useful](https://github.com/vjekob/supercharged_01/tree/04-gulp-useful) - we're making `gulp` actually useful by teaching it how to bundle JavaScript and CSS files for our control add-in
