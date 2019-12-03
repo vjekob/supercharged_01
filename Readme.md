@@ -196,3 +196,4 @@ You can check other examples:
 - [branch 02-framework](https://github.com/vjekob/supercharged_01/tree/02-framework) - it teaches you not to build a yet another front-end framework
 - [branch 03-gulp-hello-world](https://github.com/vjekob/supercharged_01/tree/03-gulp-hello-world) - we're introducing `gulp` to the stage
 - [branch 04-gulp-useful](https://github.com/vjekob/supercharged_01/tree/04-gulp-useful) - we're making `gulp` actually useful by teaching it how to bundle JavaScript and CSS files for our control add-in
+- [branch 05-gulp-watch](https://github.com/vjekob/supercharged_01/tree/05-gulp-watch) - configures `gulp` and VS Code to monitor file changes and automatically run the bundling process
