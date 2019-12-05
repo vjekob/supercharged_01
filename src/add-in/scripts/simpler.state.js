@@ -3,7 +3,7 @@ var summary = {};
 
 function calculateSummary(entry, action) {
     const currency = entry.currency || "LCY";
-    summary = {...summary, [currency]: summary[currency] || 0 };
+    summary = { ...summary, [currency]: summary[currency] || 0 };
 
     switch (action) {
         case SUMMARY_ACTION.REMOVE:
