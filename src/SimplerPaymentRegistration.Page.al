@@ -11,6 +11,7 @@ page 50100 "Simpler Payment Registration"
         {
             usercontrol(Simpler; Simpler)
             {
+                ApplicationArea = All;
                 trigger OnControlReady();
                 begin
                     SimplerPaymentRegistration.Initialize(CurrPage.Simpler);
@@ -29,6 +30,7 @@ page 50100 "Simpler Payment Registration"
                 Image = PostedPayment;
                 Promoted = true;
                 PromotedCategory = Process;
+                ApplicationArea = all;
 
                 trigger OnAction();
                 begin

@@ -24,7 +24,7 @@ const Simpler = {
 
 function calculateSummary(entry, action) {
     const currency = entry.currency || "LCY";
-    summary = {...summary, [currency]: summary[currency] || 0 };
+    summary = { ...summary, [currency]: summary[currency] || 0 };
 
     switch (action) {
         case SUMMARY_ACTION.REMOVE:
@@ -71,6 +71,7 @@ function renderSummary() {
     var tdAmount = document.createElement("td");
     tdAmount.width = "70%";
     tdAmount.innerText = "Amount";
+    tdAmount.className = "amount";
 
     tr.appendChild(tdCurrency);
     tr.appendChild(tdAmount);

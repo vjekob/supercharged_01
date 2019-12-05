@@ -180,7 +180,7 @@ when the amount of data it processes starts growing. Since it uses direct DOM ma
 without any optimization, rendering will take time, and it will be perceivable on slower
 machines.
 * All-in-one script. This is one huge script. The more it grows, the more unmanageable it
-gets. Developer(s) will lose time searching trhough it and finding the relevant code when
+gets. Developer(s) will lose time searching through it and finding the relevant code when
 something needs to change or improve.
 * Browser compatibility. The script won't work in Internet Explorer or Edge, and possibly
 in some other browsers on non-Windows platforms.
