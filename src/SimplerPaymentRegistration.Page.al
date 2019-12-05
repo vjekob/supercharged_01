@@ -12,6 +12,7 @@ page 50100 "Simpler Payment Registration"
             usercontrol(Simpler; Simpler)
             {
                 ApplicationArea = All;
+                
                 trigger OnControlReady();
                 begin
                     SimplerPaymentRegistration.Initialize(CurrPage.Simpler);
