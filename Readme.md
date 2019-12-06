@@ -148,7 +148,7 @@ To configure your automatic task manually, in your `.vscode` folder, create a ne
 ```
 
 However, you don't need to do this manually; VS Code can help you with this.
-Instead of creating the `tasks.json` file manually, you can simply press `Ctrl+P`
+Instead of creating the `tasks.json` file manually, you can simply press `Ctrl+Shift+P`
 to access the command palette, and then run **Tasks: Configure Task**. Then, in the
 **Select a task to configure** prompt select **gulp: watch**. This will create the
 `tasks.json` file for you, and will put the following content in there:
@@ -197,7 +197,7 @@ option with value of `"folderOpen"` instructs VS Code to run `gulp watch` in a s
 
 However, if you restart VS Code now, it will still not run your task, because you first
 must allow VS Code to run tasks automatically for this workspace. To do so, press
-`Ctrl+P` again, and then in the command palette, run **Tasks: Manage Automatic Tasks in Folder**,
+`Ctrl+Shift+P` again, and then in the command palette, run **Tasks: Manage Automatic Tasks in Folder**,
 and then in the follow-up prompt, select **Allow Automatic Tasks in Folder**.
 
 That's it. Now restart VS Code, and observe the terminal window. It should soon start
