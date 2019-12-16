@@ -198,3 +198,4 @@ You can check other examples:
 - [branch 04-gulp-useful](https://github.com/vjekob/supercharged_01/tree/04-gulp-useful) - we're making `gulp` actually useful by teaching it how to bundle JavaScript and CSS files for our control add-in
 - [branch 05-gulp-watch](https://github.com/vjekob/supercharged_01/tree/05-gulp-watch) - configures `gulp` and VS Code to monitor file changes and automatically run the bundling process
 - [branch 06-gulp-debug](https://github.com/vjekob/supercharged_01/tree/06-gulp-debug) - adds source maps to the build process to allow debugging of source files
+- [branch 07-gulp-babel](https://github.com/vjekob/supercharged_01/tree/07-gulp-babel) - implements `babel` into the `gulp` build process
