@@ -31,13 +31,13 @@ const bundleJs = () => gulp
     }))
     .pipe(uglify())
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(path.js))
+    .pipe(gulp.dest(path.js));
 
 const bundleCss = () => gulp
     .src(globCss)
     .pipe(concat(bundleCssFileName))
     .pipe(cleanCss())
-    .pipe(gulp.dest(path.css))
+    .pipe(gulp.dest(path.css));
 
 const buildJs = gulp.series(deleteBundleJs, bundleJs);
 const buildCss = gulp.series(deleteBundleCss, bundleCss);

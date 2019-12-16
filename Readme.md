@@ -11,173 +11,210 @@ to the public, together with the explanations and important code examples.
 
 This repository and branch contain the following:
 * **Repository:** Stage 01 - "Simpler" control add-in
-* **Branch:** 06-gulp-debug - Building and integrating source maps
+* **Branch:** 06-gulp-babel - Adding babel to the toolchain
 
 ## Branch Detailed Info
 
-This branch configures `gulp` to build source maps for all code that it processes. Source maps 
-are exteremely
-useful because they allow you to debug your original source code from a VS Code instance,
-rather than your bundle files through browser developer tools.
+This branch configures `gulp` to include `babel`. [Babel](https://babeljs.io/) is a JavaScript 
+compiler that transpiles between different versions of JavaScript. At it's heart, `babel` makes
+sure that your JavaScript code runs under all browsers (or runtime environments).
 
-## What are source maps
+## What does `babel` do
 
-The more comprehensive your gulp process becomes, the more remote your source code is
-from the code that's actually running in the browser. At this point your `gulp` concatenates
-the source files together, and then minifies them, and then saves the results as a bundle.
-Your browser loads and runs the bundle file, and knows nothing of the source files from which
-the bundle was built.
+Babel allows you to use next generation JavaScript regardless of what browsers or what runtime
+environments your JavaScript code will run at.
 
-If you attach VS Code to a browser for debugging purposes (for example, using the [Chrome
-Debugger extension for VS Code](https://code.visualstudio.com/blogs/2016/02/23/introducing-chrome-debugger-for-vs-code)),
-you cannot set breakpoints in your source files. The browser knows nothing of your source
-files, and VS Code cannot match whatever the browser is executing with the original source
-files in your workspace. You can, though, successfully set breakpoints in the bundle file
-loaded by the browser, but that's not how you want to debug anything. It would be akin to
-debugging a C# program by stepping through the assembly code executing on your processor.
+Even though I don't like copying and pasting content from other sites here, I simply can't do
+`babel` right if I don't copy what it's documentation says about it.
 
-Enter source maps.
+> Babel is a toolchain that is mainly used to convert ECMAScript 2015+ code into a backwards compatible version of JavaScript in current and older browsers or environments. Here are the main things Babel can do for you:
+>
+>* Transform syntax
+>* Polyfill features that are missing in your target environment (through @babel/polyfill)
+>* Source code transformations (codemods)
+>* And more!
 
-Source maps are exactly what you can imply from their name: maps for source. They tell your
-browser (and consequently, any debugger attached to the browser) which file, line of code
-and line position in your source code matches which statement in the resulting bundle file.
+## Configuring gulp for babel
 
-As your `gulp` (or any other bundler or compiler capable of producing source maps) transforms
-your code, it maintains the source maps. Then, it can store the source maps together with
-the generated bundle file, and your browser can then use those   allow the
-debugger attached to it to locate the source files and allow debugging through the actual
-source, including support for breakpoints.
+Unlike previous examples in previous branches of this repo, configuring `babel` is complex.
+Whoever tells you otherwise is just not honest enough. Working with `babel` - especially if
+you are doing it for the first time - will take some time before you get it right.
 
-## Configuring gulp for source maps
+The core reason for this is the huge number of possible combinations of what JavaScript *dialect*
+you write and what JavaScript *dialect* you want to transpile into. For example, if you are using
+some experimental EcmaScript 2019 features and want to make sure that code still runs in Internet
+Explorer 8, your transpiled JavaScript will look a lot different if you are writing using strict
+EcmaScript 2016 features, and merely want to make your code run in modern browsers with full
+EcmaScript 2015 support.
 
-There are a number of `gulp` plugins that you can use to build source maps. My personal
-preference is the most obvious one: `gulp-sourcemaps` (https://www.npmjs.com/package/gulp-sourcemaps).
+That's why you can't merely ***use*** `babel`, but you must also make sure to ***configure***
+`babel` correctly. And configuring `babel` requires you to download and configure multiple plug-ins.
 
-You should know how to install it by now, but just in case it's still a mystery, you do
-this:
+My goal here is not to explain `babel` in-depth or to go deep into what `babel` can do in all
+different scenarios. My only concern here is to make sure you can use `gulp`, add `babel` to the
+`gulp` toolchain, and get debuggable code that works in all browsers including IE11.
+
+Let's start by installing `babel` itself. This is what you should do:
 
 ```PowerShell
-npm install gulp-sourcemaps --save-dev
+npm i @babel/core --save-dev
 ```
 
-When this plugin installs, you can proceed with modifying the `gulpfile.js` file. Start
-by requiring the new plugin. Add this line to the end of the `require` block at the
-beginning of the file:
+This will install `babel` core functionality, and make it a development dependency. However, this
+will not already allow you to reference `babel` from your `gulpfile.js`. To allow that, you must 
+install `gulp`'s plugin for babel:
+
+```PowerShell
+npm i gulp-babel --save-dev
+```
+
+The next thing you should install is a [preset](https://babeljs.io/docs/en/presets) that covers
+nearly all of use cases: the `env` preset. You can read more about this preset here:
+https://babeljs.io/docs/en/next/babel-preset-env.html
+
+This is how you install it:
+
+```PowerShell
+npm i @babel/preset-env --save-dev
+```
+
+On top of this, you'll need a plugin named [`transform-runtime`](https://babeljs.io/docs/en/next/babel-plugin-transform-runtime):
+
+```PowerShell
+npm i @babel/plugin-transform-runtime --save-dev
+```
+
+And for this one to work correctly in all situations, you'll need this one:
+
+```PowerShell
+npm i core-js --save-dev
+```
+
+This gets you the minimum of plugins that you'll need to be able to successfully use `babel`
+from your `gulpfile.js`. You may want to use some other plugins and packages, but I've personally
+found this setup good enough.
+
+## Adding `babel` to your `gulp` toolchain
+
+Now that `babel` and all its dependencies are installed and available, you are ready to configure
+it in your `gulpfile.js`. That's an easier part.
+
+The first thing you must do is import the `gulp-babel` module:
 
 ```JavaScript
-const sourcemaps = require("gulp-sourcemaps");
+const babel = require("gulp-babel");
 ```
 
-Then, locate the `bundleJs` task; you'll need to modify it.
-
-Sourcemap generation has two stages: in the first stage you initialize the source maps,
-and in the second stage you write the source maps. The rule is simple: the first stage
-is performed right after reading the files that need to be mapped (and before any of
-transformations takes place), and the second stage occurs right before writing the
-bundle file (and after all of the transformations).
-
-In our case, our `bundleJs` task looks like this at this point:
+After that, you simply need to add `babel` to your build pipeline. It's just this line of code:
 
 ```JavaScript
-const bundleJs = () => gulp
-    .src([globJs, `!${path.js}/start.js`])
-    .pipe(concat(bundleJsFileName))
-    .pipe(uglify())
-    .pipe(gulp.dest(path.js))
+    .pipe(babel({ presets: ["@babel/preset-env"] }))
 ```
 
-It's a very simple task, it has four stages:
-1. Reads the files to transform and bundle from the disk
-2. Concatenates the files into the bundle
-3. Uglifies (minifies) the bundle
-4. Writes the bundle to the disk
-
-We need to add `gulp-sourcemaps` stages right after the first stage, and right before
-the fourth stage.
-
-To initialize source maps, you call the `init()` method, and to write them, you call the
-`write()` method. Couldn't possibly be any simpler.
-
-This is what the final `bundleJs` task will look like:
+Or, if you want to see the entire build task (in my example, it's the `bundleJs` function), here
+you go:
 
 ```JavaScript
 const bundleJs = () => gulp
     .src([globJs, `!${path.js}/start.js`])
     .pipe(sourcemaps.init())
     .pipe(concat(bundleJsFileName))
+    .pipe(babel({
+        presets: ["@babel/preset-env"]
+    }))
     .pipe(uglify())
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(path.js))
+    .pipe(gulp.dest(path.js));
 ```
 
-And that's it. When your `bundleJs` tasks executes, `gulp` will generate source maps
-for you. In the example above, I've shown how to use *inline* source maps - these maps
-are embedded into the bundle file. There are also *external* source maps, but we'll
-talk about those at a later stage when we introduce [webpack] to our toolchain.
+For `babel` to be the most efficient inside your `gulp` build pipeline, you should include it after
+all other tasks that transform code, but before the minification task.
 
-## Debugging
-
-Now that you have sourcemaps, you can use VS Code to debug your original, unbundled,
-unminified JavaScript source files.
-
-Let's configure the debugger.
-
-First step is to install a browser debugger extension. Here, I'll show how to use
-Chrome debug extension, but there are debugger extensions for Edge (which includes
-support for Edge "Canary", too) and for Firefox. Unfortunately, there is no Safari
-debugging extension, and I don't see one coming any time soon.
-
-Go to Extensions (in the Activity bar in VS Code), search for the *Debugger for Chrome*
-extension, and install it.
-
-Then, go to Debug (again, in the Activity bar), and click the gear icon to open 
-`launch.json` file. Then, click **Add Configuration > Chrome (Launch)**. Now, you need
-to configure your Chrome debugger to launch your BC page that contains your control
-add-in, and you need to point it to look for source files in the correct directory.
-
-This is an example of the correct Chrome debugger launch configuration on my machine:
+Now, for all `babel` purists out there, this seems not to be the cleanest `babel` configuration, and
+even `babel` documentation says that you should not merely use `"@babel/preset-env"` preset, and should
+instead configure it explicitly, like for example this way:
 
 ```json
 {
-    "type": "chrome",
-    "request": "launch",
-    "name": "Launch Chrome",
-    "url": "https://demos.vjeko.com/BC150/?page=50100",
-    "webRoot": "${workspaceFolder}/src/add-in/scripts"
+  "presets": [
+        ["@babel/preset-env", {
+            "targets": {
+                "ie": 11,
+                "browsers": "last 2 versions"
+            },
+            "useBuiltIns": "usage"
+        }]
+    ]
 }
 ```
 
-The ["url"] property should point to your BC page that contains the control add-in. 
-The ["webRoot"] property should point to the folder that contains your scripts.
+Yes, indeed, that would be much better, but it wouldn't really make much difference for what we
+are trying to do here (make our control add-in work in all browsers). The thing is - syntax is
+only half of the problem.
 
-If you configure your launch configuration like this, you will be able to debug your
-source scripts.
+Take a look at this simple example:
 
-## Starting the debugger
+```JavaScript
+Promise.resolve(() => alert("Done"));
+```
 
-Debugging time. First, run `gulp build` to build your bundle (that now includes the
-source maps). Then, run the `AL: Publish without debugging` command. This will deploy
-the control add-in with the script containing source maps, and will start the web
-client. However, you need to close this web client instance, because Chrome debugger
-cannot use browser instances that are not executed with correct startup options to
-enable external debuggers to attach to them.
+This won't work in IE. `"@babel/preset-env"` will do an honest attempt to make sure it works
+*syntactically*, and will give you this:
 
-Before you run the debugger, open the [simpler.interface.js] file and set a breakpoint
-at the `data.forEach...` line.
+```JavaScript
+Promise.resolve(function() {
+  return alert("Done");
+});
+```
 
-Now, go to Debug in the Activity bar, and from **Debug** dropdown, select **Launch Chrome**.
-VS Code will launch Chrome with remote debugging enabled, it will attach to the debugger
-process, and your breakpoint will come alive. In a couple of moments, it will be hit and
-you'll be able to debug your source JavaScript file regardless of the fact that your
-browser is executing something very different looking than your source files.
+But this *still* won't run in IE, and this time it's not because of the syntax. The syntax is
+perfectly okay here, it's a runtime feature that IE doesn't understand: `Promise`.
 
-Pretty cool stuff, this.
+With correct `@babel/preset-env` configuration, the best you can get from `babel` is this:
+
+```JavaScript
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
+
+Promise.resolve(function() {
+  return alert("Done");
+});
+```
+
+But this will *still* not work in IE. This time it's because IE doesn't understand the
+`require` function.
+
+And to make that work, you have to use [*polyfills*](https://en.wikipedia.org/wiki/Polyfill_(programming)).
+
+For polyfilling functionality, I recommend using https://polyfill.io/ - this website allows
+you to configure the polyfills you need, and build a URL that requests those polyfills. However,
+when your browser sends the actual request, the website will only serve those polyfills that
+you actually need. For example, if you access the URL with IE, it will polyfill missing features,
+while the same URL may return an empty string for Chrome.
+
+This is the script URL I use:
+https://polyfill.io/v3/polyfill.min.js?flags=gated%2Calways&features=Symbol%2CElement.prototype.append%2CArray.prototype.includes
+
+... and I make it a part of my `controladdin` declaration:
+
+```Pascal
+    Scripts =
+        'https://polyfill.io/v3/polyfill.min.js?flags=gated%2Calways&features=Symbol%2CElement.prototype.append%2CArray.prototype.includes',
+        'src/add-in/scripts/simpler.min.js';
+```
+
+And this is why I don't configure `@babel/preset-env` in more detail - I let it transpile to
+generally-compatible syntax, and I let the polyfill.io website to configure everything else for me.
+
+And that's it - you now have your `babel` implemented in your `gulp` toolchain with all bells and
+whistles you had before (bundling, minification, sourcemaps, and debugging)
 
 ## Conclusion
 
-We are slowly approaching having a serious toolset configured and running. At this point,
-you are creating a minified bundle with source maps that allow you to debug your control
-add-in source files in VS Code.
+Babel is the last big piece of functionality I use for simple control add-ins. It's a little bit
+more complicated to set up and configure, but once you do it, it becomes a piece of boilerplate that
+you can use for all your future projects.
 
-In the next follow-up branch, we'll add another important step - we'll introduce **babel**
-to help us with cross-browser compatibility. Stay tuned!
+There will be one more branch where I'll do a distinction between production and development
+versions of JavaScript code, and will configure `gulp` to build these with different setups.
