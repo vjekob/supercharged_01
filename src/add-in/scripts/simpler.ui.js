@@ -46,6 +46,7 @@ function renderSummary(summary) {
     var tdAmount = document.createElement("td");
     tdAmount.width = "70%";
     tdAmount.innerText = "Amount";
+    tdAmount.className = "amount";
 
     tr.appendChild(tdCurrency);
     tr.appendChild(tdAmount);
