@@ -11,7 +11,7 @@ to the public, together with the explanations and important code examples.
 
 This repository and branch contain the following:
 * **Repository:** Stage 01 - "Simpler" control add-in
-* **Branch:** 06-gulp-babel - Adding babel to the toolchain
+* **Branch:** 07-gulp-babel - Adding babel to the toolchain
 
 ## Branch Detailed Info
 
